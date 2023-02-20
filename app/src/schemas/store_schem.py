@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class StoreModel(BaseModel):
@@ -14,6 +14,11 @@ class DeletedStoresOrderModel(BaseModel):
     code: int = 200
     type: str
     message: str
+
+    @validator('code')
+    def validate_code_value(cls, code):
+        if code != 200:
+            raise ValueError('Code value should be equal 200')
 
 
 class StoresInventoryModel(BaseModel):

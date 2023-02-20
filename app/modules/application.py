@@ -2,8 +2,9 @@ import os
 
 from dotenv import load_dotenv
 
-from app.modules.pet import PetModule
-from app.modules.store import StoreModule
+from app.modules.pet_module import PetModule
+from app.modules.store_module import StoreModule
+from app.modules.user_module import UserModule
 from app.src.base_classes.common import Common
 
 
@@ -16,3 +17,4 @@ class Application:
         self.common = Common(os.getenv('BASE_URL'))
         self.pet = PetModule(self)
         self.store = StoreModule(self)
+        self.user = UserModule(self)

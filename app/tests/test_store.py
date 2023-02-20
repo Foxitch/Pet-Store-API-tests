@@ -2,7 +2,7 @@ import allure
 
 from app.modules.application import Application
 from app.src.base_classes.response import Response
-from app.src.schemas.store import StoreModel, DeletedStoresOrderModel, StoresInventoryModel
+from app.src.schemas.store_schem import StoreModel, DeletedStoresOrderModel, StoresInventoryModel
 
 
 @allure.suite('Store Module')

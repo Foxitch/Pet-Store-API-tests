@@ -19,9 +19,6 @@ class Response:
         if isinstance(self.response_json, list):
             for item in self.response_json:
                 schema.parse_obj(item)
-        elif 'data' in self.response_json.keys() and isinstance(self.response_json['data'], list):
-            for item in self.response_json['data']:
-                schema.parse_obj(item)
         else:
             schema.parse_obj(self.response_json)
         return self

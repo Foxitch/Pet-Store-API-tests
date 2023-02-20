@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class Category(BaseModel):
@@ -21,8 +21,18 @@ class PetModel(BaseModel):
     tags: list[Tags]
     status: Literal['available', 'pending', 'sold']
 
+    @validator('status')
+    def validate_code_value(cls, status):
+        if status not in ('available', 'pending', 'sold'):
+            raise ValueError(f'Status should be on of the {status}')
+
 
 class DeletedPet(BaseModel):
     code: int = 200
     type: str
     message: str
+
+    @validator('code')
+    def validate_code_value(cls, code):
+        if code != 200:
+            raise ValueError('Code value should be equal 200')
