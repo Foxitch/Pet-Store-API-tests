@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 from app.modules.application import Application
 from app.src.base_classes.response import Response
@@ -6,6 +7,7 @@ from app.src.schemas.pet_schem import PetModel, DeletedPet
 
 
 @allure.suite('Pet Module')
+@pytest.mark.pet
 class TestPetModule:
     """ https://petstore.swagger.io/#/ """
 

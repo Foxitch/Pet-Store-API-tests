@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 from app.modules.application import Application
 from app.src.base_classes.response import Response
@@ -6,6 +7,7 @@ from app.src.schemas.user_schem import UserModel, SuccessfulRequestModel
 
 
 @allure.suite('User Module')
+@pytest.mark.user
 class TestUserModule:
     """ https://petstore.swagger.io/#/ """
 

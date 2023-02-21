@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 from app.modules.application import Application
 from app.src.base_classes.response import Response
@@ -6,6 +7,7 @@ from app.src.schemas.store_schem import StoreModel, DeletedStoresOrderModel, Sto
 
 
 @allure.suite('Store Module')
+@pytest.mark.store
 class TestStoreModule:
     """ https://petstore.swagger.io/#/ """
 
