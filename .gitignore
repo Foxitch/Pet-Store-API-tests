@@ -3,5 +3,5 @@
 /app/tests/.pytest_cache/
 /venv/
 *.idea
-*__pycache__
+__pycache__
 debug.py
