@@ -8,7 +8,7 @@ Version of python required: 3.10+
 2. Install the requirements:
 `pip3 install -r requirements.txt`
 3. Execute the test run:
-`app/run_tests.sh app/tests/`
+`./app/run_tests.sh ./app/tests`
 4. Generate an allure report with results:
 `allure serve allure-result/`
 
