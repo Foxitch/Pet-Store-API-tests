@@ -1,16 +1,13 @@
-FROM --platform=linux/amd64 ubuntu
+FROM python:3.11
 
-RUN apt-get update
-RUN apt install wget -y
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt install ./google-chrome-stable_current_amd64.deb -y
+RUN apt-get update && apt-get install -y python3-pip && apt install allure -y
 
-RUN apt install software-properties-common -y && add-apt-repository ppa:deadsnakes/ppa -y && apt install python3.10
-RUN apt-get install python3-pip -y
+WORKDIR /opt/api_tests
 
-WORKDIR /opt/ui_tests
+VOLUME /opt/api_tests/allure-result
 
 COPY ../requirements.txt .
 RUN pip3 install -r requirements.txt
 
 COPY . .
+RUN chmod +x run_tests.sh
