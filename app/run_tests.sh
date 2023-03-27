@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "API tests started"
 
-result=$(python3.11 -m pytest "$1" --alluredir=allure-result | grep -o "FAILED\|ERROR" | wc -l)
+result=$(python3 -m pytest "$1" --alluredir=allure-result | grep -o "FAILED\|ERROR" | wc -l)
 
 if [ "$result" -eq 0 ]
 then

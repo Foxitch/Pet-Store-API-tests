@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 docker build -t api-tests .
 docker run api-tests
