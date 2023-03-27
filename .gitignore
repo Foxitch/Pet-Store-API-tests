@@ -1,4 +1,4 @@
-/allure-result/
+allure-result/*
 /.pytest_cache/
 /app/tests/.pytest_cache/
 /venv/

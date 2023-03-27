@@ -1,0 +1,8 @@
+venv
+*.md
+.pytest_cache
+.idea
+__pycache__
+Jenkinsfile
+.gitignore
+allure-result/*

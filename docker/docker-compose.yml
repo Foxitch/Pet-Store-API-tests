@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  tests:
+    image: ui-test
+    container_name: ui-test
+    restart: "no"
+    command: ./run_tests.sh cc_web/tests/test_login_page.py::TestLoginLogout::test_login_logout
+    env_file:
+      - ../.env
+    volumes:
+      - report:/opt/ui_tests/allure-result
+    networks:
+      - default
+
+volumes:
+  report:
+    driver: local
