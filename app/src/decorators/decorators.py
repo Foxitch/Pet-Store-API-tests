@@ -8,7 +8,8 @@ def error_handler(func):
         try:
             return func(*args, **kwargs)
         except Exception as error:
-            return logger.debug(f'Error handler: {error}')
+            logger.error(f'Error handler: {error}')
+            raise error
     return wrapper
 
 
