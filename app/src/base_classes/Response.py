@@ -15,27 +15,22 @@ class Response:
         self.response_status = response.status_code
 
     @schem_error
-    def validate_schem(self, schema):
-        if isinstance(self.response_json, list):
-            for item in self.response_json:
-                schema.parse_obj(item)
-        else:
-            schema.parse_obj(self.response_json)
-        return self
+    def validate_response_model(self, response_body: dict | list, schema, expect_error: bool = False) -> None:
+        if expect_error:
+            return
 
-    def assert_status_code(self, status_code: int):
+        if isinstance(response_body, list):
+            for obj in response_body:
+                schema.model_validate(obj)
+            return
+        schema.model_validate(response_body)
+
+    def assert_status_code(self, status_code: int) -> None:
         if isinstance(status_code, list):
             assert self.response_status in status_code, self
         else:
             assert self.response_status == status_code, self
-        return self
 
-    def assert_pet_status(self, status: str):
+    def assert_pet_status(self, status: str) -> None:
         for obj in self.response_json:
             assert obj['status'] == status
-
-    def __str__(self):
-        return \
-            f'\nStatus code: {self.response_status}\n' \
-            f'Request URL: {self.response.url}\n' \
-            f'Response body: {self.response_json}\n'
