@@ -1,16 +1,4 @@
-from loguru import logger
 from pydantic import ValidationError
-
-
-def error_handler(func):
-    """ Decorator error handler """
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as error:
-            logger.error(f'Error handler: {error}')
-            raise error
-    return wrapper
 
 
 def schem_error(func):

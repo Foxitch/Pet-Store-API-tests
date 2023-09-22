@@ -1,6 +1,5 @@
 import random
 
-from loguru import logger
 from requests import Response
 
 from app.src.generated_data.generator import generated_store_data
@@ -18,7 +17,7 @@ class StoreModule:
         """ https://petstore.swagger.io/#/store/placeOrder """
 
         generated_data = next(generated_store_data())
-        data = {
+        payload = {
             'petId': f'{generated_data.petId}',
             'quantity': f'{generated_data.quantity}',
             'shipDate': f'{generated_data.shipDate}',
@@ -26,24 +25,30 @@ class StoreModule:
             'complete': f'{generated_data.complete}'
         }
 
-        logger.info(f'Payload: {data}')
-
-        r = self.app.common.post_req(endpoint=f'{self.endpoint}/order', headers=self.headers, data=data)
+        r = self.app.api_base.session_request(
+            method='POST',
+            endpoint=f'{self.endpoint}/order',
+            headers=self.headers,
+            payload=payload
+        )
         self.created_stores_order_id = r.json()['id']
-
-        logger.info(f'Created stores order ID: {self.created_stores_order_id}')
 
         return r
 
     def get_order_by_id(self) -> Response:
         """ https://petstore.swagger.io/#/store/getOrderById """
 
-        return self.app.common.get_req(endpoint=f'{self.endpoint}/order/{random.randint(1, 10)}', headers=self.headers)
+        return self.app.api_base.session_request(
+            method='GET',
+            endpoint=f'{self.endpoint}/order/{random.randint(1, 10)}',
+            headers=self.headers
+        )
 
     def delete_order(self) -> Response:
         """ https://petstore.swagger.io/#/store/deleteOrder """
 
-        return self.app.common.delete_req(
+        return self.app.api_base.session_request(
+            method='DELETE',
             endpoint=f'{self.endpoint}/order/{self.created_stores_order_id}',
             headers=self.headers
         )
@@ -51,4 +56,8 @@ class StoreModule:
     def get_inventory(self) -> Response:
         """ https://petstore.swagger.io/#/store/getInventory """
 
-        return self.app.common.get_req(endpoint=f'{self.endpoint}/inventory', headers=self.headers)
+        return self.app.api_base.session_request(
+            method='GET',
+            endpoint=f'{self.endpoint}/inventory',
+            headers=self.headers
+        )

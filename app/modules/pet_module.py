@@ -1,4 +1,3 @@
-from loguru import logger
 from requests import Response
 
 from app.src.generated_data.generator import generated_pet_data
@@ -16,7 +15,7 @@ class PetModule:
         """ https://petstore.swagger.io/#/pet/addPet """
 
         generate_data = next(generated_pet_data())
-        data = {
+        payload = {
             'category': {
                 'name': f'{generate_data.name}'
             },
@@ -32,25 +31,31 @@ class PetModule:
             'status': f'{generate_data.status}'
         }
 
-        logger.info(f'Payload: {data}')
-
-        r = self.app.common.post_req(endpoint=self.endpoint, headers=self.headers, data=data)
+        r = self.app.api_base.session_request(
+            method='POST',
+            endpoint=self.endpoint,
+            headers=self.headers,
+            expected_code=201,
+            payload=payload
+        )
         self.created_pet_id = r.json()['id']
-
-        logger.info(f'Created Pet ID: {self.created_pet_id}')
 
         return r
 
     def get_pet_by_id(self) -> Response:
         """ https://petstore.swagger.io/#/pet/getPetById """
 
-        return self.app.common.get_req(endpoint=f'{self.endpoint}/{self.created_pet_id}', headers=self.headers)
+        return self.app.api_base.session_request(
+            method='GET',
+            endpoint=f'{self.endpoint}/{self.created_pet_id}',
+            headers=self.headers
+        )
 
     def change_pet_info(self) -> Response:
         """ https://petstore.swagger.io/#/pet/updatePet """
 
         generate_data = next(generated_pet_data())
-        data = {
+        payload = {
             'category': {
                 'name': f'{generate_data.name}'
             },
@@ -66,24 +71,29 @@ class PetModule:
             'status': f'{generate_data.status}'
         }
 
-        logger.info(f'Payload: {data}')
-
-        return self.app.common.put_req(
+        return self.app.api_base.session_request(
+            method='PUT',
             endpoint=f'{self.endpoint}/{self.created_pet_id}',
             headers=self.headers,
-            data=data
+            payload=payload
         )
 
     def find_pets_by_status(self) -> tuple[Response, str]:
         """ https://petstore.swagger.io/#/pet/findPetsByStatus """
 
         status: str = next(generated_pet_data()).status
-        return self.app.common.get_req(
-            endpoint=f'{self.endpoint}/findByStatus?status={status}',
+        return self.app.api_base.session_request(
+            method='GET',
+            endpoint=f'{self.endpoint}/findByStatus',
+            params={'status': f'{status}'},
             headers=self.headers
         ), status
 
     def delete_pet(self) -> Response:
         """ https://petstore.swagger.io/#/pet/deletePet """
 
-        return self.app.common.delete_req(endpoint=f'{self.endpoint}/{self.created_pet_id}', headers=self.headers)
+        return self.app.api_base.session_request(
+            method='DELETE',
+            endpoint=f'{self.endpoint}/{self.created_pet_id}',
+            headers=self.headers
+        )

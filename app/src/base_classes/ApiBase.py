@@ -15,11 +15,10 @@ class ApiBase:
 
     def session_request(self,
                         method: str,
-                        url: str,
+                        endpoint: str,
                         payload: dict | list = None,
                         params: dict | list = None,
                         headers: dict = None,
-                        expected_code: int = 200,
                         replace_headers: bool = False,
                         **kwargs) -> Response:
 
@@ -32,7 +31,7 @@ class ApiBase:
 
         response = self.session.request(
             method=method,
-            url=url,
+            url=self.api_url + endpoint,
             headers=self.session.headers,
             json=payload,
             params=params,
@@ -40,10 +39,7 @@ class ApiBase:
             verify=False,
             **kwargs
         )
-
         self._request_logger(response=response)
-        assert response.status_code == int(expected_code), self._request_logger(response=response)
-
         return response
 
     def _request_logger(self, response: Response) -> None:

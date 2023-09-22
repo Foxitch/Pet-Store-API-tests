@@ -14,7 +14,7 @@ load_dotenv()
 class Application:
 
     def __init__(self):
-        self.common = ApiBase(os.getenv('BASE_URL'))
+        self.api_base = ApiBase(os.getenv('BASE_URL'))
         self.pet = PetModule(self)
         self.store = StoreModule(self)
         self.user = UserModule(self)
