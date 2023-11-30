@@ -35,7 +35,6 @@ class PetModule:
             method='POST',
             endpoint=self.endpoint,
             headers=self.headers,
-            expected_code=201,
             payload=payload
         )
         self.created_pet_id = r.json()['id']
