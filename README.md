@@ -15,5 +15,5 @@ Version of python required: 3.10+
 ### EXECUTION IN THE DOCKER  ###
 
 1. Install the Docker: https://www.docker.com/products/docker-desktop/
-2. Launch the Docker GUI
-3. Execute this [bash](./run_build.sh) script
+2. Launch the Docker
+3. Execute this [run_build.sh](./run_build.sh) script
